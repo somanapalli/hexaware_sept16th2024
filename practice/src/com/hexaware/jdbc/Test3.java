@@ -2,10 +2,11 @@ package com.hexaware.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Scanner;
 
-public class Test1 {
+public class Test3 {
 	
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		
@@ -20,11 +21,21 @@ public class Test1 {
 		
 		System.out.println("i got the connection");
 		
-		Statement statement = connection.createStatement();
+		PreparedStatement ps = connection.prepareStatement("insert into student values(?,?)");
 		
-		int x = statement.executeUpdate("insert into student values(105,'rese')");
+		Scanner scanner = new Scanner(System.in);
 		
-		System.out.println(x + "row(s) inserted");
+		System.out.println("enter student id");
+		int x = scanner.nextInt();
+		System.out.println("enter student name");
+		String y = scanner.next();
+		
+		ps.setInt(1, x);
+		ps.setString(2, y);
+		
+		int result = ps.executeUpdate();
+		
+		System.out.println(result + "row(s) inserted");
 		
 		//close the connection 
 		connection.close();
